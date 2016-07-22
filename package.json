@@ -1,0 +1,19 @@
+{
+  "name": "zonkey-api",
+  "version": "1.0.0",
+  "description": "Node.js API server for zonkey web application",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Raul Julia <achilleshero125@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.15.1",
+    "express": "^4.13.4",
+    "lodash": "^4.12.0",
+    "mongodb": "^2.1.19",
+    "mongoskin": "^2.1.0"
+  }
+}
