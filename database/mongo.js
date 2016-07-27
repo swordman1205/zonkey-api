@@ -7,6 +7,10 @@ var db = mongo.db(process.env.MONGOLAB_URI || config.mLab, {native_parser:true})
 //var db = mongo.db('mongodb://localhost:27017/zonkey', {native_parser:true});
 db.bind('users');
 db.bind('dossiers');
+db.bind('histories');
+db.bind('comments');
+db.bind('attachments');
+db.bind('companies');
 
 // check if email already exists as other social account
 module.exports = {
@@ -35,7 +39,8 @@ module.exports = {
 				console.log(res);
 				var result = _.map(res, function(obj) {
 					var history_id = obj.latest_history;
-					db.histories.findOne({ _id: ObjectId("57986acabb196c2904423637") }, function(e, r) {
+					console.log(history_id);
+					db.histories.findOne({ _id: ObjectId(history_id) }, function(e, r) {
 						if (e) {
 							callback(e, null);
 						}
