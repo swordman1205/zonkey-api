@@ -43,7 +43,7 @@ module.exports = {
 					console.log(history_id + "");
 					console.log(ObjectId(history_id.toString()));
 					console.log(ObjectId(history_id+""));
-					db.histories.findOne({ _id: ObjectId(history_id + "") }, function(e, r) {
+					db.histories.findOne({ _id: ObjectId(history_id.toString()) }, function(e, r) {
 						if (e) {
 							callback(e, null);
 						}
