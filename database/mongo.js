@@ -45,8 +45,10 @@ module.exports = {
 					console.log(ObjectId(history_id+""));
 					db.histories.findOne({ _id: ObjectId(history_id.toString()) }, function(e, r) {
 						if (e) {
+							console.log(e);
 							callback(e, null);
 						}
+						console.log(r);
 						obj.latest_history = r;
 						return obj;
 					});
