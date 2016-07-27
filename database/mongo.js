@@ -27,7 +27,7 @@ module.exports = {
 	},
 
 	getDossiers: function(callback) {
-		db.dossiers.find({}, function(err, res) {
+		db.dossiers.find({}).toArray(function(err, res) {
 			if (err) {
 				callback(err, null);
 			}
