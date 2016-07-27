@@ -36,7 +36,9 @@ module.exports = {
 				callback(err, null);
 			}
 			if (res) {
-				callback(null, res);
+				callback(null, _.map(res, function(obj) {
+					return _.pick(obj, ['_id', 'bc_number', 'latest_history']);
+				}));
 			} else {
 				callback(null, null);
 			}
