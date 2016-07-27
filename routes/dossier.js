@@ -14,6 +14,15 @@ var dossier = {
 		        }
 		    }
 		});
+	},
+
+	getById: function(req, res) {
+		mongo.getDossier(req.body.id, function(e, r) {
+			if (e) {
+				res.send(JSON.stringify(e.message));
+			}
+			res.send(JSON.stringify(r));
+		});
 	}
 };
 

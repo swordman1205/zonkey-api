@@ -8,6 +8,7 @@ var router = function(app) {
 
   app.get("/login", auth.login);
   app.get("/dossiers", dossier.getAll);
+  app.get("/dossier", dossier.getById);
 }
 
 module.exports = router;

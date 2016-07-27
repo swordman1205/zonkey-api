@@ -41,5 +41,14 @@ module.exports = {
 				callback(null, null);
 			}
 		});
+	},
+
+	getDossier: function(dossierId, callback) {
+		db.dossiers.findOne({ _id: ObjectId(dossierId) }, function(err, res) {
+			if (err) {
+				callback(err, null);
+			}
+			callback(null, res);
+		});
 	}
 };
