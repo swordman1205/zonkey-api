@@ -3,8 +3,7 @@ var _ = require('lodash');
 
 var dossier = {
 	getAll: function(req, res) {
-		res.send("this is a dossier router!");
-		/*mongo.getDossiers(function(e, r) {
+		mongo.getDossiers(function(e, r) {
 			if (e) {
 				res.send(JSON.stringify(e.message));
 			} else {
@@ -14,6 +13,8 @@ var dossier = {
 		          res.send(r);
 		        }
 		    }
-		});*/
+		});
 	}
 };
+
+module.exports = dossier;
