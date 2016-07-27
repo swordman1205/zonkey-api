@@ -6,6 +6,7 @@ var _ = require('lodash');
 var db = mongo.db(process.env.MONGOLAB_URI || config.mLab, {native_parser:true});
 //var db = mongo.db('mongodb://localhost:27017/zonkey', {native_parser:true});
 db.bind('users');
+db.bind('dossiers');
 
 // check if email already exists as other social account
 module.exports = {
