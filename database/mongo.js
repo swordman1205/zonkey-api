@@ -40,7 +40,7 @@ module.exports = {
 				var result = _.map(res, function(obj) {
 					var history_id = obj.latest_history;
 					console.log(history_id);
-					db.histories.findOne({ _id: history_id }, function(e, r) {
+					db.histories.findOne({ _id: ObjectId(history_id + "") }, function(e, r) {
 						if (e) {
 							callback(e, null);
 						}
