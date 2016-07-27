@@ -23,5 +23,30 @@ module.exports = {
 		    	callback(null, null);
 		    }
 		});
+	},
+
+	getDossiers: function(callback) {
+		db.dossiers.find({}, function(err, res) {
+			if (err) {
+				callback(err, null);
+			}
+			if (res) {
+				console.log(res);
+				var result = _.map(res, function(obj) {
+					var history_id = obj.latest_history;
+					db.histories.findOne({ _id: history_id }, function(e, r) {
+						if (e) {
+							callback(e, null);
+						}
+						obj.latest_history = r;
+						return obj;
+					});
+				});
+				console.log(result);
+				callback(null, result);
+			} else {
+				callback(null, null);
+			}
+		});
 	}
 };
