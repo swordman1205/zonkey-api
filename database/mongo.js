@@ -35,8 +35,7 @@ module.exports = {
 				console.log(res);
 				var result = _.map(res, function(obj) {
 					var history_id = obj.latest_history;
-					console.log(ObjectId(history_id));
-					db.histories.findOne({ _id: ObjectId(history_id) }, function(e, r) {
+					db.histories.findOne({ _id: ObjectId("57986acabb196c2904423637") }, function(e, r) {
 						if (e) {
 							callback(e, null);
 						}
