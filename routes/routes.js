@@ -7,7 +7,9 @@ var router = function(app) {
   });
 
   app.get("/login", auth.login);
-  app.get("/dossiers", dossier.getAll);
+  app.get("/dossiers", function(req, res) {
+    res.send("Welcome! This is Zonkey API.");
+  });
 }
 
 module.exports = router;
