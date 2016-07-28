@@ -50,7 +50,37 @@ module.exports = {
 			if (err) {
 				callback(err, null);
 			}
-			callback(null, res);
+			if (res) {
+				db.histories.find({ dossier_id: ObjectId(res._id) }).toArray(function(e, histories) {
+					if (e) {
+						callback(e, null);
+					}
+					res.histories = histories;
+					if (histories) {
+						db.comments.find({ dossier_id: ObjectId(res._id) }).toArray(function(e1, comments) {
+							if (e1) {
+								callback(e1, null);
+							}
+							res.comments = comments;
+							if (comments) {
+								db.attachments.find({ dossier_id: ObjectId(res._id) }).toArray(function(e2, attachments) {
+									if (e2) {
+										callback(e2, null);
+									}
+									res.attachments = attachments;
+									callback(null, res);
+								});
+							} else {
+								callback(null, res);
+							}
+						});
+					} else {
+						callback(null, res);
+					}
+				})
+			} else {
+				callback(null, res);
+			}
 		});
 	}
 };
