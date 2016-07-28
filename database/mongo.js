@@ -55,30 +55,39 @@ module.exports = {
 					if (e) {
 						callback(e, null);
 					}
-					res.histories = histories;
 					if (histories) {
 						db.comments.find({ dossier_id: ObjectId(res._id) }).toArray(function(e1, comments) {
 							if (e1) {
 								callback(e1, null);
 							}
-							res.comments = comments;
 							if (comments) {
 								db.attachments.find({ dossier_id: ObjectId(res._id) }).toArray(function(e2, attachments) {
 									if (e2) {
 										callback(e2, null);
 									}
+									res.histories = histories;
+									res.comments = comments;
 									res.attachments = attachments;
 									callback(null, res);
 								});
 							} else {
+								res.histories = histories;
+								res.comments = comments;
+								res.attachments = [];
 								callback(null, res);
 							}
 						});
 					} else {
+						res.histories = histories;
+						res.comments = [];
+						res.attachments = [];
 						callback(null, res);
 					}
 				})
 			} else {
+				res.histories = [];
+				res.comments = [];
+				res.attachments = [];
 				callback(null, res);
 			}
 		});
