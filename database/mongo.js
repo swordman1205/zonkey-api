@@ -56,7 +56,7 @@ module.exports = {
 					callback(err, null);
 				}
 				if (res) {
-					db.histories.find({ dossier_id: ObjectId(res._id) }).toArray(function(e, histories) {
+					db.histories.find({ dossier_id: ObjectId(res._id) }).sort({ create_at: -1 }).toArray(function(e, histories) {
 						if (e) {
 							callback(e, null);
 						}
@@ -119,7 +119,7 @@ module.exports = {
 				}
 				var history = r.ops[0];
 				db.dossiers.update({ 
-					_id: ObjectId(commentInfo.dossier_id) 
+					_id: ObjectId(comment.dossier_id) 
 				}, { 
 					$set: { 
 						latest_history: {
