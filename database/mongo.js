@@ -95,8 +95,8 @@ module.exports = {
 
 	addComment: function(commentInfo, callback) {
 		db.comments.insert({
-			user_id: commentInfo.userId,
-			dossier_id: commentInfo.dossierId,
+			user_id: ObjectId(commentInfo.userId),
+			dossier_id: ObjectId(commentInfo.dossierId),
 			content: commentInfo.commentText,
 			category: commentInfo.category,
 			create_at: util.getCurrentDate()
@@ -107,10 +107,10 @@ module.exports = {
 			console.log('successfully saved!');
 			var comment = res.ops[0];
 			db.histories.insert({
-				user_id: comment.user_id,
-				dossier_id: comment.dossier_id,
+				user_id: ObjectId(comment.user_id),
+				dossier_id: ObjectId(comment.dossier_id),
 				status: 3, // update with comment
-				comment: comment._id,
+				comment: ObjectId(comment._id),
 				attachments: null,
 				create_at: new Date()
 			}, function(e, r) {
@@ -122,8 +122,10 @@ module.exports = {
 					_id: ObjectId(commentInfo.dossier_id) 
 				}, { 
 					$set: { 
-						user: commentInfo.userName,
-						status: 3
+						latest_history: {
+							user: commentInfo.userName,
+							status: 3
+						}
 					} 
 				}, function(e1, dossier) {
 					if (e1) {
