@@ -118,12 +118,11 @@ module.exports = {
 					callback(e, null);
 				}
 				var history = r.ops[0];
-				console.log(users[_.findIndex(users, function(usr) { return usr._id == commentInfo.userId })]);
 				db.dossiers.update({ 
 					_id: ObjectId(commentInfo.dossier_id) 
 				}, { 
 					$set: { 
-						user: users[_.findIndex(users, function(usr) { return usr._id == commentInfo.userId })],
+						user: commentInfo.userName,
 						status: 3
 					} 
 				}, function(e1, dossier) {
