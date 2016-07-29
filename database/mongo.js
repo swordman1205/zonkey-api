@@ -2,6 +2,7 @@ var mongo = require('mongoskin');
 var ObjectId  = mongo.ObjectId;
 var config = require("../config/config.js");
 var _ = require('lodash');
+var util = require("../util/util.js");
 
 var db = mongo.db(process.env.MONGOLAB_URI || config.mLab, {native_parser:true});
 //var db = mongo.db('mongodb://localhost:27017/zonkey', {native_parser:true});
@@ -81,6 +82,38 @@ module.exports = {
 			} else {
 				callback(null, res);
 			}
+		});
+	},
+
+	addComment: function(commentInfo, callback) {
+		db.comments.insert({
+			user_id: commentInfo.userId,
+			dossier_id: commentInfo.dossierId,
+			content: commentInfo.commentText,
+			category: commentInfo.category,
+			create_at: util.getCurrentDate()
+		}, function(err, res) {
+			if (err) {
+				callback(err, null)
+			}
+			console.log('successfully saved!');
+			var comment = res.ops[0];
+			db.histories.insert({
+				user_id: comment.user_id,
+				dossier_id: comment.dossier_id,
+				status: 3, // update with comment
+				comment: comment._id,
+				attachments: null,
+				create_at: new Date()
+			}, function(e, r) {
+				if (e) {
+					callback(e, null);
+				}
+				callback(null, {
+					comment: comment,
+					history: r.ops[0]
+				});
+			})
 		});
 	}
 };
