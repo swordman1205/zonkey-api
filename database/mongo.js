@@ -60,7 +60,9 @@ module.exports = {
 						if (e) {
 							callback(e, null);
 						}
-						res.users = users;
+						res.users = _.map(users, function(usr) {
+							return _.pick(usr, ['_id', 'name', 'avatar']);
+						});
 						res.histories = histories;
 						if (histories) {
 							db.comments.find({ dossier_id: ObjectId(res._id) }).toArray(function(e1, comments) {
