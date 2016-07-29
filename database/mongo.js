@@ -47,41 +47,47 @@ module.exports = {
 	},
 
 	getDossier: function(dossierId, callback) {
-		db.dossiers.findOne({ _id: ObjectId(dossierId) }, function(err, res) {
-			if (err) {
-				callback(err, null);
+		db.users.find({}).toArray(function(error, users) {
+			if (error) {
+				callback(error, null);
 			}
-			if (res) {
-				db.histories.find({ dossier_id: ObjectId(res._id) }).toArray(function(e, histories) {
-					if (e) {
-						callback(e, null);
-					}
-					res.histories = histories;
-					if (histories) {
-						db.comments.find({ dossier_id: ObjectId(res._id) }).toArray(function(e1, comments) {
-							if (e1) {
-								callback(e1, null);
-							}
-							res.comments = comments;
-							if (comments) {
-								db.attachments.find({ dossier_id: ObjectId(res._id) }).toArray(function(e2, attachments) {
-									if (e2) {
-										callback(e2, null);
-									}
-									res.attachments = attachments;
+			db.dossiers.findOne({ _id: ObjectId(dossierId) }, function(err, res) {
+				if (err) {
+					callback(err, null);
+				}
+				if (res) {
+					db.histories.find({ dossier_id: ObjectId(res._id) }).toArray(function(e, histories) {
+						if (e) {
+							callback(e, null);
+						}
+						res.users = users;
+						res.histories = histories;
+						if (histories) {
+							db.comments.find({ dossier_id: ObjectId(res._id) }).toArray(function(e1, comments) {
+								if (e1) {
+									callback(e1, null);
+								}
+								res.comments = comments;
+								if (comments) {
+									db.attachments.find({ dossier_id: ObjectId(res._id) }).toArray(function(e2, attachments) {
+										if (e2) {
+											callback(e2, null);
+										}
+										res.attachments = attachments;
+										callback(null, res);
+									});
+								} else {
 									callback(null, res);
-								});
-							} else {
-								callback(null, res);
-							}
-						});
-					} else {
-						callback(null, res);
-					}
-				})
-			} else {
-				callback(null, res);
-			}
+								}
+							});
+						} else {
+							callback(null, res);
+						}
+					});
+				} else {
+					callback(null, res);
+				}
+			});
 		});
 	},
 
@@ -109,9 +115,23 @@ module.exports = {
 				if (e) {
 					callback(e, null);
 				}
-				callback(null, {
-					comment: comment,
-					history: r.ops[0]
+				var history = r.ops[0];
+				console.log(users[_.findIndex(users, function(usr) { return usr._id == commentInfo.userId })]);
+				db.dossiers.update({ 
+					_id: ObjectId(commentInfo.dossier_id) 
+				}, { 
+					$set: { 
+						user: users[_.findIndex(users, function(usr) { return usr._id == commentInfo.userId })],
+						status: 3
+					} 
+				}, function(e1, dossier) {
+					if (e1) {
+						callback(e1, null);
+					}
+					callback(null, {
+						comment: comment,
+						history: history
+					});
 				});
 			})
 		});
