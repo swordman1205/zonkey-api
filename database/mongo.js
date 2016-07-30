@@ -76,8 +76,16 @@ module.exports = {
 										if (e2) {
 											callback(e2, null);
 										}
-										res.attachments = attachments;
-										callback(null, res);
+										if (attachments) {
+											res.attachments = _.map(attachments, function(file) {
+												var decryptedText = aes.getDecryptedText(file.file_data);
+												file.file_data = decryptedText;
+												return file;
+											});
+										} else {
+											res.attachments = null;
+											callback(null, res);
+										}
 									});
 								} else {
 									callback(null, res);

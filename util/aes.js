@@ -8,14 +8,12 @@ module.exports = {
 	getEncryptedText: function(binaryData) {
 		var cipher = crypto.createCipher(algorithm, key);  
 		var encrypted = cipher.update(binaryData, 'utf8', 'hex') + cipher.final('hex');
-		console.log(encrypted);
 		return encrypted;
 	},
 
 	getDecryptedText: function(binaryData) {
 		var decipher = crypto.createDecipher(algorithm, key);
 		var decrypted = decipher.update(binaryData, 'hex', 'utf8') + decipher.final('utf8');
-		assert.equal(decrypted, binaryData);
-		return binaryData;
+		return decrypted;
 	}
 };
