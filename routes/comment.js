@@ -4,6 +4,7 @@ var _ = require('lodash');
 var comment = {
 	addNew: function(req, res) {
 		console.log(req.body);
+		console.log(req.query);
 
 		mongo.addComment(req.body, function(err, comment) {
 			if (err) {
