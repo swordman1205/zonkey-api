@@ -145,7 +145,7 @@ module.exports = {
 		db.attachments.insert({
 			user_id: ObjectId(fileInfo.userId),
 			dossier_id: ObjectId(fileInfo.dossierId),
-			file_data: aes.getEncryptedText(fileInfo.binaryData),
+			file_data: aes.getEncryptedText(fileInfo.binaryData.toString('utf8')),
 			file_name: fileInfo.fileName,
 			category: fileInfo.category,
 			create_at: util.getCurrentDate()
