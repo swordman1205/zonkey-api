@@ -13,7 +13,7 @@ var router = function(app) {
   app.get("/dossier", dossier.getById);
 
   app.post("/comment", comment.addNew);
-  app.options("/upload", upload.addNew);
+  app.post("/upload", upload.addNew);
 }
 
 module.exports = router;
