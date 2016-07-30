@@ -3,6 +3,7 @@ var ObjectId  = mongo.ObjectId;
 var config = require("../config/config.js");
 var _ = require('lodash');
 var util = require("../util/util.js");
+var aes = require('../util/aes.js');
 
 var db = mongo.db(process.env.MONGOLAB_URI || config.mLab, {native_parser:true});
 //var db = mongo.db('mongodb://localhost:27017/zonkey', {native_parser:true});
@@ -135,6 +136,51 @@ module.exports = {
 						comment: comment,
 						history: history
 					});
+				});
+			})
+		});
+	},
+
+	addFile: function(fileInfo, callback) {
+		db.attachments.insert({
+			user_id: ObjectId(fileInfo.userId),
+			dossier_id: ObjectId(fileInfo.dossierId),
+			file_data: aes.getEncryptedText(fileInfo.binaryData),
+			file_name: fileInfo.fileName,
+			category: fileInfo.category,
+			create_at: util.getCurrentDate()
+		}, function(err, res) {
+			if (err) {
+				callback(err, null)
+			}
+			console.log('successfully saved!');
+			var attachment = res.ops[0];
+			db.histories.insert({
+				user_id: ObjectId(attachment.user_id),
+				dossier_id: ObjectId(attachment.dossier_id),
+				status: 4, // update with attachment
+				attachments: ObjectId(attachment._id),
+				comment: null,
+				create_at: new Date()
+			}, function(e, r) {
+				if (e) {
+					callback(e, null);
+				}
+				var history = r.ops[0];
+				db.dossiers.update({ 
+					_id: ObjectId(attachment.dossier_id) 
+				}, { 
+					$set: { 
+						latest_history: {
+							user: fileInfo.userName,
+							status: 4
+						}
+					} 
+				}, function(e1, dossier) {
+					if (e1) {
+						callback(e1, null);
+					}
+					callback(null, true);
 				});
 			})
 		});

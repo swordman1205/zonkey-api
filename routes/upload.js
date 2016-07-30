@@ -3,8 +3,24 @@ var _ = require('lodash');
 
 var upload = {
 	addNew: function(req, res) {
-		console.log(req.body);
-		console.log(req.files);
+
+		mongo.addFile({
+			userId: req.body.userId,
+			category: req.body.category,
+			dossierId: req.body.dossierId,
+			userName: req.body.userName,
+			binaryData: req.files.data,
+			fileName: req.files.name
+		}, function(err, comment) {
+			if (err) {
+				res.send(err.message);
+			}
+			if (comment) {
+				res.send(JSON.stringify(comment));
+			} else {
+				res.send(null);
+			}
+		});
 	}
 };
 
