@@ -142,6 +142,7 @@ module.exports = {
 	},
 
 	addFile: function(fileInfo, callback) {
+		console.log(fileInfo);
 		db.attachments.insert({
 			user_id: ObjectId(fileInfo.userId),
 			dossier_id: ObjectId(fileInfo.dossierId),
