@@ -82,6 +82,7 @@ module.exports = {
 												file.file_data = decryptedText;
 												return file;
 											});
+											callback(null, res);
 										} else {
 											res.attachments = null;
 											callback(null, res);
