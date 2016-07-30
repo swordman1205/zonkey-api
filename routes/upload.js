@@ -4,15 +4,13 @@ var _ = require('lodash');
 var upload = {
 	addNew: function(req, res) {
 
-		console.log(req.files);
-
 		mongo.addFile({
 			userId: req.body.userId,
 			category: req.body.category,
 			dossierId: req.body.dossierId,
 			userName: req.body.userName,
-			binaryData: req.files.data,
-			fileName: req.files.name
+			binaryData: req.files.files.data,
+			fileName: req.files.files.name
 		}, function(err, comment) {
 			if (err) {
 				res.send(err.message);
