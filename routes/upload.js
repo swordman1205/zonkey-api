@@ -10,7 +10,8 @@ var upload = {
 			dossierId: req.body.dossierId,
 			userName: req.body.userName,
 			binaryData: req.files.files.data,
-			fileName: req.files.files.name
+			fileName: req.files.files.name,
+			fileType: req.files.files.mimetype
 		}, function(err, comment) {
 			if (err) {
 				res.send(err.message);
