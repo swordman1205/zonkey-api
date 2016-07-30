@@ -4,6 +4,8 @@ var _ = require('lodash');
 var upload = {
 	addNew: function(req, res) {
 
+		console.log(req.files);
+
 		mongo.addFile({
 			userId: req.body.userId,
 			category: req.body.category,
