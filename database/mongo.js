@@ -78,9 +78,17 @@ module.exports = {
 										}
 										if (attachments) {
 											res.attachments = _.map(attachments, function(file) {
-												var decryptedText = aes.getDecryptedText(file.file_data);
+												/*var decryptedText = aes.getDecryptedText(file.file_data);
 												file.file_data = decryptedText;
-												return file;
+												return file;*/
+												return {
+													_id: file._id,
+													user_id: file.user_id,
+													dossier_id: file.dossier_id,
+													file_name: fileInfo.fileName,
+													file_type: fileInfo.fileType,
+													category: fileInfo.category
+												};
 											});
 											callback(null, res);
 										} else {
