@@ -85,11 +85,12 @@ module.exports = {
 													_id: file._id,
 													user_id: file.user_id,
 													dossier_id: file.dossier_id,
-													file_name: fileInfo.fileName,
-													file_type: fileInfo.fileType,
-													category: fileInfo.category
+													file_name: file.file_name,
+													file_type: file.file_type,
+													category: file.category
 												};
 											});
+											console.log('=====', res);
 											callback(null, res);
 										} else {
 											res.attachments = null;
